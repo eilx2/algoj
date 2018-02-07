@@ -1,0 +1,30 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+	<h1> Problems </h1>
+	<table class="table">
+		<thead class = "thead-dark">
+			<tr>
+				<th scope="col"> ID </th>
+				<th scope="col"> Name </th>
+				<th scope="col"> Status </th>
+				<th scope="col"> Tags </th>
+			</tr>
+		</thead>
+
+		{% for problem in problems %}
+			
+			<tr>
+				<th scope="row">{{ forloop.counter0 }}</th>
+				<td>  <a href="{% url 'problem' problem.code %}">{{ problem.name }}</a> </td>
+				<td> 0/12 </td>
+				<td> 
+					{% for tag in problem.tags.all %}
+						{{ tag.name }}
+					{% endfor %}
+				</td>
+			</tr>
+			
+		{% endfor %}
+	</table>
+{% endblock %}

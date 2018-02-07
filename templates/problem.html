@@ -1,0 +1,39 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+	{% load static %}
+
+	<link rel="stylesheet" href="{% static 'lib/codemirror.css' %}">
+	<script type="text/javascript" src="{% static 'lib/codemirror.js' %}"></script>
+	<script type="text/javascript" src="{% static 'lib/python/python.js' %}"></script>
+
+	<h1> Task: {{ problem.name }} </h1>
+	{% if message %} 
+		<div class="alert alert-success" role="alert">
+  			{{ message }}
+		</div>
+	{% endif %}
+
+	<p> {{problem.statement}} </p>
+
+	{% if user.is_authenticated %}
+
+		<form method="post" novalidate>
+			{% csrf_token %}
+			{{ form }}
+			<br>
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</form>
+
+	{% else %}
+		<div class="alert alert-warning" role="alert">
+  			You must be logged in order to submit a solution!
+		</div>
+
+	{% endif %}
+	
+
+
+	
+	
+{% endblock %}

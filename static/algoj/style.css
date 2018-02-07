@@ -1,0 +1,22 @@
+
+.signup{
+	max-width: 600px;
+}
+
+.login{
+	max-width: 500px;
+}
+
+body { padding-top: 70px; } 
+
+
+#code {
+	border-style: solid;
+	
+}
+
+@media screen and (min-width: 576px){
+	.sidenav{
+		position: fixed;
+	}
+}

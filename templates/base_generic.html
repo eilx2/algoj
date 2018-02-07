@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+	
+{% load static %}
+
+<head>
+	{% block title %}<title>AlgoJ</title>{% endblock %}
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" >
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" ></script>
+
+	<link rel="stylesheet" href="{% static 'algoj/style.css' %}">
+
+</head>
+
+
+<body>
+	<nav class="navbar navbar-expand navbar-dark bg-dark fixed-top" id="top-bar">
+			
+			<a class="navbar-brand" href="{% url 'home' %}" >AlgoJ </a>
+			
+			
+			{% if user.is_authenticated %}
+				<ul class="nav navbar-nav ml-auto">
+					<li class="nav-item dropdown">
+			            <a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			              {{ user.username }}
+			            </a>
+			            
+			            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
+			              <a class="dropdown-item" href="#">My account</a>
+			              <a class="dropdown-item" href="#">Change password</a>
+			              <div class="dropdown-divider"></div>
+
+			              <a class="dropdown-item" href="{% url 'logout' %}">Log out</a>
+			            </div>
+          			</li>
+				</ul>
+
+	  		{% else %}
+	  			<ul class="nav navbar-nav ml-auto">
+					<li class="nav-item">  
+						<a class="nav-link" href="{% url 'signup' %}">
+							 Sign up
+						</a> 
+					</li>
+
+		  			<li class="nav-item"> 
+		  				
+		  				<a class="nav-link" href="{% url 'login' %}">
+		  					 Login
+		  				</a> 
+		  			</li>
+		  			
+		  		</ul>
+	  		{% endif %}
+  		</div>
+	</nav>
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-2 col-sidenav">
+			{% block sidebar %}
+				<div class="sidenav">
+			
+					
+					
+
+						<a class="nav-link" href="{% url 'home' %}">Home</a>
+							
+						<a class="nav-link" href="{% url 'tutorial' %}">Tutorial</a>
+
+          				<a class="nav-link" href="{% url 'archive' %}">Archive</a>
+		         
+		          			
+				</div>		
+				
+			</div>
+			{% endblock %}
+			
+
+			<div class="col-sm-9">
+				{% block content %} {% endblock %}
+			</div>
+		</div>
+	</div>
+</body>
+
+
+</html>
