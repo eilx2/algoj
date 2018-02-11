@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'account',
     'widget_tweaks',
     'django_ace',
+    'django_q',
 ]
 
 MIDDLEWARE = [
@@ -141,5 +142,3 @@ Q_CLUSTER = {
     'cpu_affinity': 1,
     'label': 'Django Q',
 }
-
-CODEMIRROR_PATH='lib'

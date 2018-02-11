@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Problem, Submission, Test, TestInstance, Tag, Profile
+from .models import Problem, Submission, Test, TestInstance, Tag, Profile, Comparator
 
 # Register your models here.
 
@@ -9,3 +9,4 @@ admin.site.register(Test)
 admin.site.register(TestInstance)
 admin.site.register(Tag)
 admin.site.register(Profile)
+admin.site.register(Comparator)

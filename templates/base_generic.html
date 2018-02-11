@@ -32,7 +32,7 @@
 			            </a>
 			            
 			            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
-			              <a class="dropdown-item" href="#">My account</a>
+			              <a class="dropdown-item" href="{% url 'profile' username=user.username %}">My account</a>
 			              <a class="dropdown-item" href="#">Change password</a>
 			              <div class="dropdown-divider"></div>
 

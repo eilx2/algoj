@@ -24,19 +24,38 @@ def problem_view(request, code):
 		raise Http404
 
 	if request.method == 'POST' and request.user.is_authenticated:
-		form = SubmitSolForm(request.POST)
-		context['form'] = form
+
 		context['message']='Your solution was submitted successfuly!'
 
-		submission = Submission.objects.create(source=form['source'], problem = problem, user = request.user)
+		print('Submitted solution:',request.POST['source'])
+		submission = Submission.objects.create(source=request.POST['source'], problem = problem, user = request.user)
 
 		async('judge.judge.judge_submission',submission.id)
 
-		if form.is_valid():
-			return render(request,"problem.html",context=context)
-	else:
-		form = SubmitSolForm()
-		context['form'] = form
+		return render(request,"problem.html",context=context)
 
 
 	return render(request,"problem.html",context=context)
+
+
+
+
+def submissions_view(request, code):
+	problem = None
+	context = {}
+	user = request.user
+
+	try:
+		problem = Problem.objects.get(code=code)
+		context['problem'] = problem
+	except Problem.DoesNotExist:
+		raise Http404
+
+	if not request.user.is_authenticated:
+		return render(request,"submissions.html",context=context)
+
+	submissions = problem.submissions.filter(user=user)
+
+	context['submissions']=submissions
+
+	return render(request,"submissions.html", context=context)

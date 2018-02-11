@@ -46,6 +46,15 @@ def grader_dir(self, filename):
 def tests_dir(self, filename):
 	return 'problems/'+self.problem.code+'/tests/'+str(filename)
 
+def solution_dir(self, filename):
+	return 'problems/'+self.code+'/solution/'+'sol.py'
+
+class Comparator(models.Model):
+	name = models.CharField(max_length=40, unique=True)
+	file = models.FileField(upload_to='comparators/')
+
+	def __str__(self):
+		return self.name
 
 class Problem(models.Model):
 	name = models.CharField(max_length=40, unique=True)
@@ -58,9 +67,13 @@ class Problem(models.Model):
 	date = models.DateTimeField()
 
 	grader = models.FileField(upload_to=grader_dir, null='true')
+	solution = models.FileField(upload_to=solution_dir, null=True)
+
+	comparator = models.ForeignKey(Comparator, on_delete=models.SET_NULL, default=None, null=True)
 
 	tags = models.ManyToManyField(Tag)
 
+	template = models.TextField(default='')
 	class Meta:
 		ordering = ["date", "name"]
 
@@ -73,13 +86,27 @@ class Problem(models.Model):
 
 
 class Submission(models.Model):
-	date = models.DateField(default=datetime.date.today)
+	date = models.DateField(auto_now_add=True, blank=True)
+	
+
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	problem = models.ForeignKey(Problem, on_delete=models.SET_NULL, null=True, related_name="submissions")
+	problem = models.ForeignKey(Problem, on_delete=models.CASCADE, null=True, related_name="submissions")
 	source = models.TextField()
 
+	class Meta:
+		ordering = ['-date']
+
 	def __str__(self):
-		return self.problem.name+'-'+str(self.user)+'-'+str(self.date)
+		name = ''
+		if self.problem:
+			name = self.problem.name
+		else:
+			name='NULL'
+
+		return name+'-'+str(self.user)+'-'+str(self.date)
+
+	def str(self):
+		return str(self)
 
 	def get_score(self):
 		tests = self.tests.all()
@@ -100,7 +127,11 @@ class Submission(models.Model):
 
 		return True
 
-	
+#@receiver(post_save, sender=Submission)
+#def create_tests(sender, instance, created, **kwargs):
+#	if created:
+#		for test in instance.problem.tests.all():
+#			TestInstance.objects.create(test=test, submission=instance)
 
 
 class Test(models.Model):
@@ -120,6 +151,7 @@ class TestInstance(models.Model):
 	evaluated = models.BooleanField(default=False)
 
 	VERDICTS = [ ('AC', 'Accepted'),
+				 ('WA', 'Wrong Answer'),
 				 ('TLE', 'Time Limit Exceeded'),
 				 ('MLE', 'Memory Limit Exceeded'),
 				 ('RE', 'Runtime Error'),
@@ -127,11 +159,11 @@ class TestInstance(models.Model):
 				 ('RNG', 'Running...'),
 	]
 
+	details = models.TextField(default='')
 	verdict = models.CharField(max_length=5, choices=VERDICTS, default='RNG')
 
 	time = models.IntegerField(default=0)
 	memory = models.IntegerField(default=0)
-
 
 
 
