@@ -4,6 +4,8 @@ import os
 from . import helper
 from subprocess import Popen, PIPE
 import traceback
+import base64
+
 
 def judge_submission(submission_id):
 	submission = Submission.objects.get(pk=submission_id)
@@ -70,20 +72,24 @@ def make_verdict(test_inst, verdict, details):
 	test_inst.evaluated = True
 	test_inst.save()
 
+
+
 def compare(comparator, input_data, judge_out, user_out):
 	source = comparator.file.read().decode()
 
-	input_data = helper.remove_newlines(input_data)
-	judge_out = helper.remove_newlines(judge_out)
-	user_out = helper.remove_newlines(user_out)
+	input_data = base64.b64encode(input_data.encode()).decode()
+	judge_out = base64.b64encode(judge_out.encode()).decode()
+	user_out = base64.b64encode(user_out.encode()).decode()
 
-	p = Popen(['python3', '-c', source]
+	data = input_data+'\n'+judge_out+'\n'+user_out
+	p = Popen(['python3', '-c', source],
               stdout=PIPE, stdin=PIPE, stderr=PIPE)
 
-	out, err = p.communicate(input_data+'\n'+judge_out+'\n'+user_out+'\n')
+	out, err = p.communicate(data.encode())
 
+	print('Err:', err.decode())
 	if err.decode()!='':
-		raise RuntimeException()
+		raise RuntimeError()
 
 	return int(out.decode())
 

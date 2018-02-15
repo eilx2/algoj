@@ -19,6 +19,7 @@ from django.contrib.auth import views as auth_views
 from . import views
 
 from account.views import signup_view, profile_view
+from archive.views import submission_json_view
 
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
@@ -28,5 +29,7 @@ urlpatterns = [
     path('signup/', signup_view, name='signup'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('login/', auth_views.LoginView.as_view(template_name='account/login.html'), name='login'),
-    path('profile/<str:username>', profile_view, name='profile')
+    path('profile/<str:username>', profile_view, name='profile'),
+    path('submission/<id>', submission_json_view, name='submission_json'),
+    path('tinymce/', include('tinymce.urls')),
 ]

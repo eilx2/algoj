@@ -3,10 +3,10 @@
 {% block content %}
 <h1> Tutorial </h1>
 <p> AlgoJ is a python based judge system that you can use for testing your source code. 
-The archive contains a list of algorithmic tasks which you must solve. </p>
+The archive contains a list of algorithmic tasks which you can solve. <b>All solutions are judged using Python3.</b> </p>
 
 <h3> Registration </h3>
-<p>To access the archive, you first need to register. The registration is a simple process, you can use your university email or your personal one. Press the <b>Register</b> button in the top right corner in order to register.</p>
+<p>To access the archive, you first need to register. The registration is a simple process, you can use your university email or your personal one. Press the <b>Sign up</b> button in the top right corner in order to register.</p>
 
 
 
@@ -14,45 +14,29 @@ The archive contains a list of algorithmic tasks which you must solve. </p>
 <p>The problem archive contains a list of tasks available for solving. Each task is composed of a:
 <ol>
 	<li>Problem statement</li>
-	<li>Implementation specification</li>
+	<li>Input and output specification</li>
 	<li>One or more examples </li>
 </ol></p>
 
 
 <h3> Submission </h3>
-<p>In order to solve a problem, you must write a function(s) that conforms to the specification of the problem.</p>
-<h3> Problem Archive </h3>
-<p>The problem archive contains a list of tasks available for solving. Each task is composed of a:
+<p>In order to solve a problem, you must write a function(s) that conforms to the specification of the problem.
+In most cases, the input and output will be specified in the statement, and the code template will already include the necessary code in order in read the data and write the results. You only have to implement the specified algorithms.</p>
+
+<p> After submitting your code, go to the <b>Submissions</b> page in order to track your results.
+
+<h3> Verdicts </h3>
+There is a list of possible verdicts that your solution can get:
+
 <ol>
-	<li>Problem statement</li>
-	<li>Implementation specification</li>
-	<li>One or more examples </li>
-</ol></p>
+	<li>Accepted - it means that your code got the right answer for the test.</li>
+	<li>Wrong Answer - it means your code got a wrong answer for a given test.</li>
+	<li>Time Limit Exceeded - you code has passed over the time limit. Each problem has a specified time limit.</li>
+	<li>Runtime Error - your code exited with a non-zero code, or it failed to compile. Usually you'll be able to see a small description in the details if this happens.</li>
+	<li>Evaluation Error - this should not happen. It means something malfunctioned in the judge. Try sending your submission again, or contact the administrator. </li>
 
+</ol>
 
-<h3> Submission </h3>
-<p>In order to solve a problem, you must write a function(s) that conforms to the specification of the problem.</p>
-<h3> Problem Archive </h3>
-<p>The problem archive contains a list of tasks available for solving. Each task is composed of a:
-<ol>
-	<li>Problem statement</li>
-	<li>Implementation specification</li>
-	<li>One or more examples </li>
-</ol></p>
-
-
-<h3> Submission </h3>
-<p>In order to solve a problem, you must write a function(s) that conforms to the specification of the problem.</p>
-<h3> Problem Archive </h3>
-<p>The problem archive contains a list of tasks available for solving. Each task is composed of a:
-<ol>
-	<li>Problem statement</li>
-	<li>Implementation specification</li>
-	<li>One or more examples </li>
-</ol></p>
-
-
-<h3> Submission </h3>
-<p>In order to solve a problem, you must write a function(s) that conforms to the specification of the problem.</p>
+In addition, each problem has memory limit which is not specified but is set to around 512 MB.
 
 {% endblock %}

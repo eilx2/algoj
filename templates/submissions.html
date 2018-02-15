@@ -1,8 +1,9 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-	{% load static %}
 
+	{% load static %}
+	<link rel="stylesheet" href="{% static 'algoj/pygments.css' %}">
 	<!--<link rel="stylesheet" href="{% static 'lib/codemirror.css' %}">
 	<script type="text/javascript" src="{% static 'lib/codemirror.js' %}"></script>
 	<script type="text/javascript" src="{% static 'lib/python/python.js' %}"></script>
@@ -18,17 +19,121 @@
 		</div>
 
 	{% else %}
-		<div class="list-group">
-			{% for submission in submissions %}
-			  	<a href="#" class="list-group-item list-group-item-action">{{submission.str}}</a>
-			  	
-			 {% empty %}
-			 	<div class="alert alert-info" role="alert">
-  					You haven't submitted any solution for this problem.
-				</div>
-			 {% endfor %}
-		</div>
+		{% if submissions %}
+			<table class="table table-hover">
+				<thead>
+				    <tr>
+				      <th scope="col">Date</th>
+				      <th scope="col">Score</th>
+				      <th scope="col">Status</th>
+				    </tr>
+
+				</thead>
+				<tbody>
+					{% for submission in submissions %}
+						
+					  	<tr class="{{submission.get_class}} clickable-row submission" data-toggle="modal" data-target="#submissionInfo" data-id="{{ submission.pk }}">
+					  
+					      <td>{{ submission.date }}, {{ submission.time }}</td>
+					      <td>{{ submission.get_score }}/{{ submission.tests.count }}</td>
+					      <td>
+					      	{% if submission.is_evaluated %}
+					      		Evaluated
+					      	{% else %}
+					      		Running...
+					      	{% endif %}
+					      </td>
+					      
+					    </tr>
+					  	
+					 {% endfor %}
+				</tbody>
+
+			</table>
+
+			<div class="modal fade" id="submissionInfo" role="dialog">
+		        <div class="modal-dialog modal-lg" role="document">
+		            <div class="modal-content">
+		                <div class="modal-header">
+		                	<h4 class="modal-title">Modal Header</h4>
+		                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		                    	<span aria-hidden="true"> &times;</span>
+		                    </button>
+		                    
+		                </div>
+		                <div class="modal-body">
+		                	
+		                </div>
+		                <div class="modal-footer">
+		                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		                </div>
+		            </div>
+       	 		</div>
+   		 	</div>
+
+   		 	<script>
+   		 		var dict = {
+   		 			'AC' : 'Accepted',
+   		 			'RE' : 'Runtime Error',
+   		 			'EE' : 'Evaluation Error',
+   		 			'TLE': 'Time Limit Exceeded',
+   		 			'WA' : 'Wrong Answer',
+   		 			'RNG': 'Running...'
+   		 		}
+
+			    $(document).ready(function () {
+			        $('#submissionInfo').on('show.bs.modal', function(e) {
+
+			            /* get data written in data-person-name field */
+			            var id = $(e.relatedTarget).data('id');
+			            console.log(id)
+			            /* append that to form our service url */
+			            var jqxhr = $.getJSON('/submission/'+id,function(json) {
+			            	
+			                /* this function is called when request finishes. The response is stored in this json object*/
+			                /* we get the div that holds the header and put there the value of the "title" element */
+			                submission = json[0][0]
+			                tests = json[1]
+
+			                $('#submissionInfo .modal-header .modal-title').html('Submission details');
+			                $('#submissionInfo .modal-body').html(submission.fields.source);
+			                for (i=0; i<tests.length; i++){
+			                	details = tests[i]['fields']['details']
+			                	details = details.replace(/\n/g,'<br>')
+			                	console.log(details)
+			                	html = `<div class="card test-card">
+										    <div class="card-header" role="tab" id="heading`+i+`">
+										      <h5 class="mb-0">
+										        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse`+i+`" aria-expanded="false" aria-controls="collapse`+i+`">
+										          Test #`+i+" - "+dict[tests[i]['fields']['verdict']]+`
+										        </a>
+										      </h5>
+										    </div>
+										    <div id="collapse`+i+`" class="collapse collapse-details" role="tabpanel" aria-labelledby="heading`+i+`">
+										    	<h4> Details </h4>
+										      <div class="card-block">
+										       `+details+`\n
+										      </div>
+										    </div>
+										  </div>`
+
+								$('#submissionInfo .modal-body').append(html);
+			                }
+			                /* we get the modal-body div and put the content of the "data" key in our php */
+			                //$('#submissionInfo .modal-body').html(json);
+			            });
+
+			            
+
+			        });
+			    });
+			</script>
+		{% else %}
+			<div class="alert alert-info" role="alert">
+	  			You haven't submitted any solution for this problem.
+			</div>
+		{% endif %}
+
 	{% endif %}
-	
 	
 {% endblock %}

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'django_ace',
     'django_q',
+    'tinymce',
 ]
 
 MIDDLEWARE = [
@@ -70,6 +71,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
             ],
         },
+      
     },
 ]
 
@@ -141,4 +143,11 @@ Q_CLUSTER = {
     'queue_limit': 500,
     'cpu_affinity': 1,
     'label': 'Django Q',
+}
+
+TINYMCE_DEFAULT_CONFIG = {
+    'theme': "modern", # default value
+    'relative_urls': False, # default value
+    'width': '100%',
+    'height': 300
 }

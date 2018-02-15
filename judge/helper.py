@@ -32,7 +32,7 @@ def run(code, tl, input_data):
     ctr_name = str(uuid.uuid4())
    
     try:
-        with time_limit(tl+5):
+        with time_limit(tl+30):
             p = Popen(['docker', 'run','-i', '-a', 'stdin', '-a', 'stdout', '-a', 'stderr',
                        '--name', ctr_name, '--rm', 'judge-docker',
                        'timeout', '-s', 'SIGKILL', str(tl), 'python3', '-c', code],
@@ -41,22 +41,37 @@ def run(code, tl, input_data):
             out, err = p.communicate(input=input_data.encode())
             print('Return code:',p.returncode)
 
-            if p.returncode == -9:
+            if p.returncode == 124:
                 kill_and_remove(ctr_name)
                 return ('Time limit exceeded!','tle')
             
             if p.returncode != 0:    
-                return (err.decode(),'user_err')
+                return (err.decode()+'\n'+'Return code from solution: '+str(p.returncode),'user_err')
 
             return (out.decode(),'ok')
 
     except TimeoutException:
+        print('Timeout occured, wtf..')
         kill_and_remove(ctr_name)
         return ('The judge took too long. Aborting operation...','judge_err')
     except Exception as e:
         return (traceback.format_exc(),'judge_err')
 
-def remove_newlines(s):
-    return s.replace('\n',' ').replace('\r',' ')
+
+
+
+timeout_loc = "/usr/local/opt/coreutils/libexec/gnubin/timeout"
+
+def unsafe_run(code, tl, input_data):
+    p = Popen([timeout_loc, '-s', 'SIGKILL', str(tl), 'python3', '-c', code],
+                stdout = PIPE, stdin = PIPE, stderr = PIPE)
+
+    out, err = p.communicate(input=input_data.encode())
+
+    if p.returncode!=0:
+        return ('The judge experienced an error.\n Return code: ' + str(p.returncode)+'\n'+err.decode(),'judge_err')
+
+    return (out.decode(), 'ok')
+
 
 

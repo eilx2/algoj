@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 import datetime
+from tinymce.models import HTMLField
+
 
 # Create your models here.
 
@@ -56,17 +58,20 @@ class Comparator(models.Model):
 	def __str__(self):
 		return self.name
 
+
 class Problem(models.Model):
 	name = models.CharField(max_length=40, unique=True)
 	code = models.CharField(max_length=40, unique=True)
 
 	statement = models.TextField()
-	time_limit = models.IntegerField(default=2000)
+	input_spec = models.TextField(default="")
+	output_spec = models.TextField(default="")
+
+	time_limit = models.IntegerField(default=2)
 	memory_limit = models.IntegerField(default=256)
 
 	date = models.DateTimeField()
 
-	grader = models.FileField(upload_to=grader_dir, null='true')
 	solution = models.FileField(upload_to=solution_dir, null=True)
 
 	comparator = models.ForeignKey(Comparator, on_delete=models.SET_NULL, default=None, null=True)
@@ -83,18 +88,25 @@ class Problem(models.Model):
 	def __str__(self):
 		return self.name
 
+class Example(models.Model):
+	problem = models.ForeignKey(Problem, on_delete=models.CASCADE, related_name="examples")
+	input = models.TextField()
+	output = models.TextField()
+
+	def __str__(self):
+		return self.problem.name+'_'+str(self.pk)
 
 
 class Submission(models.Model):
 	date = models.DateField(auto_now_add=True, blank=True)
+	time = models.TimeField(auto_now_add=True, blank=True)
 	
-
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	problem = models.ForeignKey(Problem, on_delete=models.CASCADE, null=True, related_name="submissions")
 	source = models.TextField()
 
 	class Meta:
-		ordering = ['-date']
+		ordering = ['-date','-time']
 
 	def __str__(self):
 		name = ''
@@ -126,6 +138,16 @@ class Submission(models.Model):
 				return False
 
 		return True
+
+	def get_class(self):
+		if not self.is_evaluated():
+			return 'table-info'
+		elif self.get_score()==self.tests.count():
+			return 'table-success'
+		elif self.get_score()==0:
+			return 'table-danger'
+		else:
+			return 'table-warning'
 
 #@receiver(post_save, sender=Submission)
 #def create_tests(sender, instance, created, **kwargs):

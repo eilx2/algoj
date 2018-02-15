@@ -63,22 +63,21 @@
 
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-sm-2 col-sidenav">
+			<div class="col-sm-2">
+			<div class="wrap">
 			{% block sidebar %}
 				<div class="sidenav">
-			
 					
 					
 
-						<a class="nav-link" href="{% url 'home' %}">Home</a>
+						<a class="nav-link text-center" href="{% url 'home' %}">Home</a>
 							
-						<a class="nav-link" href="{% url 'tutorial' %}">Tutorial</a>
+						<a class="nav-link text-center" href="{% url 'tutorial' %}">Tutorial</a>
 
-          				<a class="nav-link" href="{% url 'archive' %}">Archive</a>
+          				<a class="nav-link text-center" href="{% url 'archive' %}">Archive</a>
 		         
-		          			
-				</div>		
-				
+		        </div>		
+			</div>
 			</div>
 			{% endblock %}
 			

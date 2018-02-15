@@ -1,5 +1,6 @@
 {% extends "base_generic.html" %}
 
+{% load filters %}
 {% block content %}
 	<h1> Problems </h1>
 	<table class="table">
@@ -17,7 +18,7 @@
 			<tr>
 				<th scope="row">{{ forloop.counter0 }}</th>
 				<td>  <a href="{% url 'problem' problem.code %}">{{ problem.name }}</a> </td>
-				<td> 0/12 </td>
+				<td>  {{ scores|get_item:problem.code }}/{{ problem.tests.count }} </td>
 				<td> 
 					{% for tag in problem.tags.all %}
 						{{ tag.name }}
