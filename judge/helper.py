@@ -34,7 +34,7 @@ def run(code, tl, input_data):
     try:
         with time_limit(tl+30):
             p = Popen(['docker', 'run','-i', '-a', 'stdin', '-a', 'stdout', '-a', 'stderr',
-                       '--name', ctr_name, '--rm', 'judge-docker',
+                       '--name', ctr_name, '--rm', '--memory=256m', 'judge-docker',
                        'timeout', '-s', 'SIGKILL', str(tl), 'python3', '-c', code],
                       stdout=PIPE, stdin=PIPE, stderr=PIPE)
             

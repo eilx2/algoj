@@ -16,6 +16,7 @@
 	
 		<div class="float-left">
 			<h1> Task: {{ problem.name }} </h1>
+			<div class="time-limit">Time Limit: {{problem.time_limit}} seconds</div>
 		</div>
 		<div class="float-right">
 			<a href="{% url 'submissions' problem.code %}" class="btn btn-secondary">Submissions</a>
