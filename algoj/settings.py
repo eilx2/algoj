@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'judge',
     'account',
     'widget_tweaks',
-    'django_ace',
     'django_q',
 ]
 

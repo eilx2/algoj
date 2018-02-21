@@ -31,5 +31,4 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='account/login.html'), name='login'),
     path('profile/<str:username>', profile_view, name='profile'),
     path('submission/<id>', submission_json_view, name='submission_json'),
-    path('tinymce/', include('tinymce.urls')),
 ]

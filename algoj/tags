@@ -1,0 +1,33 @@
+!_TAG_FILE_SORTED	2	/0=unsorted, 1=sorted, 2=foldcase/
+admin	/Users/marcel/Documents/algoj-req/algoj/algoj/urls.py	/^from django.contrib import admin$/;"	i	language:Python
+ALLOWED_HOSTS	/Users/marcel/Documents/algoj-req/algoj/algoj/settings.py	/^ALLOWED_HOSTS = ['*']$/;"	v	language:Python
+AUTH_PASSWORD_VALIDATORS	/Users/marcel/Documents/algoj-req/algoj/algoj/settings.py	/^AUTH_PASSWORD_VALIDATORS = [$/;"	v	language:Python
+auth_views	/Users/marcel/Documents/algoj-req/algoj/algoj/urls.py	/^from django.contrib.auth import views as auth_views$/;"	i	language:Python
+BASE_DIR	/Users/marcel/Documents/algoj-req/algoj/algoj/settings.py	/^BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))$/;"	v	language:Python
+DATABASES	/Users/marcel/Documents/algoj-req/algoj/algoj/settings.py	/^DATABASES = {$/;"	v	language:Python
+DEBUG	/Users/marcel/Documents/algoj-req/algoj/algoj/settings.py	/^DEBUG =True$/;"	v	language:Python
+include	/Users/marcel/Documents/algoj-req/algoj/algoj/urls.py	/^from django.urls import path, include$/;"	i	language:Python
+INSTALLED_APPS	/Users/marcel/Documents/algoj-req/algoj/algoj/settings.py	/^INSTALLED_APPS = [$/;"	v	language:Python
+LANGUAGE_CODE	/Users/marcel/Documents/algoj-req/algoj/algoj/settings.py	/^LANGUAGE_CODE = 'en-us'$/;"	v	language:Python
+LOGIN_REDIRECT_URL	/Users/marcel/Documents/algoj-req/algoj/algoj/settings.py	/^LOGIN_REDIRECT_URL = 'home'$/;"	v	language:Python
+LOGOUT_REDIRECT_URL	/Users/marcel/Documents/algoj-req/algoj/algoj/settings.py	/^LOGOUT_REDIRECT_URL = 'home'$/;"	v	language:Python
+MIDDLEWARE	/Users/marcel/Documents/algoj-req/algoj/algoj/settings.py	/^MIDDLEWARE = [$/;"	v	language:Python
+os	/Users/marcel/Documents/algoj-req/algoj/algoj/settings.py	/^import os$/;"	i	language:Python
+path	/Users/marcel/Documents/algoj-req/algoj/algoj/urls.py	/^from django.urls import path, include$/;"	i	language:Python
+profile_view	/Users/marcel/Documents/algoj-req/algoj/algoj/urls.py	/^from account.views import signup_view, profile_view$/;"	i	language:Python
+Q_CLUSTER	/Users/marcel/Documents/algoj-req/algoj/algoj/settings.py	/^Q_CLUSTER = {$/;"	v	language:Python
+ROOT_URLCONF	/Users/marcel/Documents/algoj-req/algoj/algoj/settings.py	/^ROOT_URLCONF = 'algoj.urls'$/;"	v	language:Python
+SECRET_KEY	/Users/marcel/Documents/algoj-req/algoj/algoj/settings.py	/^SECRET_KEY = 'g(sc*1vjt(0xlgqua9j2g#7i5$x#x%2b^b16-as_gf!tn5yyq*'$/;"	v	language:Python
+signup_view	/Users/marcel/Documents/algoj-req/algoj/algoj/urls.py	/^from account.views import signup_view, profile_view$/;"	i	language:Python
+STATICFILES_DIRS	/Users/marcel/Documents/algoj-req/algoj/algoj/settings.py	/^STATICFILES_DIRS = [$/;"	v	language:Python
+STATIC_URL	/Users/marcel/Documents/algoj-req/algoj/algoj/settings.py	/^STATIC_URL = '\/static\/'$/;"	v	language:Python
+submission_json_view	/Users/marcel/Documents/algoj-req/algoj/algoj/urls.py	/^from archive.views import submission_json_view$/;"	i	language:Python
+TEMPLATES	/Users/marcel/Documents/algoj-req/algoj/algoj/settings.py	/^TEMPLATES = [$/;"	v	language:Python
+TIME_ZONE	/Users/marcel/Documents/algoj-req/algoj/algoj/settings.py	/^TIME_ZONE = 'UTC'$/;"	v	language:Python
+TINYMCE_DEFAULT_CONFIG	/Users/marcel/Documents/algoj-req/algoj/algoj/settings.py	/^TINYMCE_DEFAULT_CONFIG = {$/;"	v	language:Python
+urlpatterns	/Users/marcel/Documents/algoj-req/algoj/algoj/urls.py	/^urlpatterns = [$/;"	v	language:Python
+USE_I18N	/Users/marcel/Documents/algoj-req/algoj/algoj/settings.py	/^USE_I18N = True$/;"	v	language:Python
+USE_L10N	/Users/marcel/Documents/algoj-req/algoj/algoj/settings.py	/^USE_L10N = True$/;"	v	language:Python
+USE_TZ	/Users/marcel/Documents/algoj-req/algoj/algoj/settings.py	/^USE_TZ = True$/;"	v	language:Python
+views	/Users/marcel/Documents/algoj-req/algoj/algoj/urls.py	/^from . import views$/;"	i	language:Python
+WSGI_APPLICATION	/Users/marcel/Documents/algoj-req/algoj/algoj/settings.py	/^WSGI_APPLICATION = 'algoj.wsgi.application'$/;"	v	language:Python
