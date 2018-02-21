@@ -76,7 +76,7 @@
 
 			<form method="post" novalidate>
 				{% csrf_token %}
-				<div id="editor">{{ problem.template }}</div>
+				<div id="editor">{% if source %}{{ source }}{% else %}{{ problem.template }} {% endif %}</div>
 				<textarea name="source" id="source" style="display: none"></textarea>
 				<br>
 				<button type="submit" class="btn btn-primary">Submit</button>
