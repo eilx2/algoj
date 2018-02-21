@@ -48,16 +48,23 @@ def problem_view(request, code):
 		raise Http404
 
 
+
 	if request.method == 'POST' and request.user.is_authenticated:
 
-		context['message']='Your solution was submitted successfuly!'
+		context['message']='Your solution was submitted successfuly! Go to the "Submissions" page.'
 
 		print('Submitted solution:',request.POST['source'])
 		submission = Submission.objects.create(source=request.POST['source'], problem = problem, user = request.user)
 
 		async('judge.judge.judge_submission',submission.id)
 
-		return render(request,"problem.html",context=context)
+	if request.user.is_authenticated:
+		submissions = Submission.objects.filter(user=request.user, problem=problem)
+
+		if submissions:
+			submission = submissions.latest('date', 'time')
+			context['source'] = submission.source
+
 
 
 	return render(request,"problem.html",context=context)

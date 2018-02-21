@@ -79,6 +79,8 @@ class Problem(models.Model):
 	tags = models.ManyToManyField(Tag)
 
 	template = models.TextField(default='')
+	author = models.CharField(max_length=40,default='')
+	
 	class Meta:
 		ordering = ["date", "name"]
 
