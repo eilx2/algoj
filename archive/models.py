@@ -24,6 +24,8 @@ class Profile(models.Model):
 
 		return len(submissions)>0
 
+	def __str__(self):
+		return self.user.username+' - Profile'
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
@@ -116,7 +118,9 @@ class Submission(models.Model):
 		else:
 			name='NULL'
 
-		return name+'-'+str(self.user)+'-'+str(self.date)
+		time = str(self.time)
+		time = time[: time.find('.')]
+		return name+', '+str(self.user)+', '+str(self.date)+', '+time
 
 	def str(self):
 		return str(self)
@@ -188,5 +192,7 @@ class TestInstance(models.Model):
 	time = models.IntegerField(default=0)
 	memory = models.IntegerField(default=0)
 
+	def __str__(self):
+		return str(self.submission)+'---'+str(self.test)
 
 
