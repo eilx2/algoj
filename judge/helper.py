@@ -60,7 +60,7 @@ def run(code, tl, input_data):
 
 
 
-timeout_loc = "/usr/local/opt/coreutils/libexec/gnubin/timeout"
+timeout_loc = "timeout"
 
 def unsafe_run(code, tl, input_data):
     p = Popen([timeout_loc, '-s', 'SIGKILL', str(tl), 'python3', '-c', code],

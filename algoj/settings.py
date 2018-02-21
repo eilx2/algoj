@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'g(sc*1vjt(0xlgqua9j2g#7i5$x#x%2b^b16-as_gf!tn5yyq*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG =True
 
 ALLOWED_HOSTS = ['*']
 
@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'django_ace',
     'django_q',
-    'tinymce',
 ]
 
 MIDDLEWARE = [
