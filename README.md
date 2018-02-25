@@ -42,7 +42,7 @@ After this, you'll need to build the image. Go inside the `docker` directory, th
 
 `docker built -t judge-docker .`
 
-## Running:
+## Running
 
 First run redis by using:
 
