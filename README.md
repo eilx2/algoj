@@ -3,6 +3,11 @@
 Prototype online judge that uses django, django-q, redis and docker. Runs mainly with python3, though support for other languages can be added.
 It's designed to be very lightweight and to be mainly used inside a class setting.
 
+## Demo
+
+![Demo video](https://thumbs.gfycat.com/DisguisedNauticalIaerismetalmark-size_restricted.gif)
+
+
 ## Installation
 
 To install it, first clone the repository:
