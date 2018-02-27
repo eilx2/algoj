@@ -1,8 +1,14 @@
 import base64
+import sys
 
 input_data = base64.b64decode(input().encode()).decode()
 judge_out = base64.b64decode(input().encode()).decode()
-user_out = base64.b64decode(input().encode()).decode()
+
+try:
+	user_out = base64.b64decode(input().encode()).decode()
+except:
+	print(0)
+	sys.exit()
 
 # begin judge here
 
