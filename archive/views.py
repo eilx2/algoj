@@ -7,7 +7,7 @@ from django.core import serializers
 from pygments import highlight
 from pygments.lexers import PythonLexer
 from pygments.formatters import HtmlFormatter
-
+from datetime import datetime,timezone
 
 def get_scores(user):
 	scores = {}
@@ -50,20 +50,42 @@ def problem_view(request, code):
 
 
 	if request.method == 'POST' and request.user.is_authenticated:
+		cr_date = datetime.now(timezone.utc)
+		last_sub = request.user.profile.last_submission
+		
 
-		context['message']='Your solution was submitted successfuly! Go to the "Submissions" page.'
+		dif = (cr_date-last_sub).total_seconds()
+		context['source'] = request.POST['source']
+		
 
-		print('Submitted solution:',request.POST['source'])
-		submission = Submission.objects.create(source=request.POST['source'], problem = problem, user = request.user)
+		if dif>=30:
 
-		async('judge.judge.judge_submission',submission.id)
+			context['message']='Your solution was submitted successfuly! Go to the "Submissions" page.'
+			context['msg_type']='success'
+
+
+			print('Submitted solution:',request.POST['source'])
+			
+			submission = Submission.objects.create(source=request.POST['source'], problem = problem, user = request.user)
+
+			for test in submission.problem.tests.all():
+				test_instance = TestInstance.objects.create(submission=submission, test=test)
+
+			request.user.profile.last_submission = datetime.now(timezone.utc)
+			request.user.profile.save()
+
+			async('judge.judge.judge_submission',submission.id)
+		else:
+			context['message'] = 'You must wait at least 30 seconds before submitting another solution.'
+			context['msg_type'] = 'danger'
 
 	if request.user.is_authenticated:
 		submissions = Submission.objects.filter(user=request.user, problem=problem)
 
 		if submissions:
 			submission = submissions.latest('date', 'time')
-			context['source'] = submission.source
+			if not 'source' in context:
+				context['source'] = submission.source
 
 
 

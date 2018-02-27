@@ -24,7 +24,7 @@
 		<div class="clearfix"> </div>
 	
 	{% if message %} 
-		<div class="alert alert-success" role="alert">
+		<div class="alert alert-{{ msg_type }}" role="alert">
   			{{ message }}
 		</div>
 	{% endif %}

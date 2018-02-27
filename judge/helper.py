@@ -32,9 +32,9 @@ def run(code, tl, input_data):
     ctr_name = str(uuid.uuid4())
    
     try:
-        with time_limit(tl+30):
+        with time_limit(120):
             p = Popen(['docker', 'run','-i', '-a', 'stdin', '-a', 'stdout', '-a', 'stderr',
-                       '--name', ctr_name, '--rm', '--memory=256m', 'judge-docker',
+                       '--name', ctr_name, '--rm', 'judge-docker',
                        'timeout', '-s', 'SIGKILL', str(tl), 'python3', '-c', code],
                       stdout=PIPE, stdin=PIPE, stderr=PIPE)
             
@@ -53,7 +53,7 @@ def run(code, tl, input_data):
     except TimeoutException:
         print('Timeout occured, wtf..')
         kill_and_remove(ctr_name)
-        return ('The judge took too long. Aborting operation...','judge_err')
+        return ('The judge took too long. Try submitting another time. Aborting operation...','judge_err')
     except Exception as e:
         return (traceback.format_exc(),'judge_err')
 

@@ -11,10 +11,8 @@ def judge_submission(submission_id):
 	submission = Submission.objects.get(pk=submission_id)
 	print("judging: {}".format(submission_id))
 	
-
-	for test in submission.problem.tests.all():
-		test_instance = TestInstance.objects.create(submission=submission, test=test)
-		async('judge.judge.evaluate_test',test_instance.id)
+	for test_inst in submission.tests.all():
+		async('judge.judge.evaluate_test',test_inst.id)
 
 
 
@@ -58,9 +56,9 @@ def evaluate_test(test_instance_id):
 		verdict = compare(comparator,input_data,judge_out,user_out)
 
 		if verdict==1:
-			make_verdict(test_inst,'AC','')
+			make_verdict(test_inst,'AC','Your solution passed this test correctly.')
 		else:
-			make_verdict(test_inst,'WA','')
+			make_verdict(test_inst,'WA','Your solution finished, but it got the wrong solution.')
 
 	except Exception as e:
 		make_verdict(test_inst, 'EE', 'Something has failed, please contact the administrator.\n'+ traceback.format_exc())

@@ -9,6 +9,8 @@ import datetime
 
 class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
+	last_submission = models.DateTimeField(default=datetime.datetime.now, blank=True)
+
 
 	def get_score(self, problem):
 		score = 0
@@ -26,6 +28,8 @@ class Profile(models.Model):
 
 	def __str__(self):
 		return self.user.username+' - Profile'
+
+
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
