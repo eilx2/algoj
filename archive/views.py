@@ -48,6 +48,7 @@ def problem_view(request, code):
 		raise Http404
 
 
+	
 
 	if request.method == 'POST' and request.user.is_authenticated:
 		cr_date = datetime.now(timezone.utc)
@@ -113,6 +114,7 @@ def submissions_view(request, code):
 	context['submissions']=submissions
 
 	return render(request,"submissions.html", context=context)
+
 
 def parse_string(s):
 	s=s.replace('\\r\\n','\n')
