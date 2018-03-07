@@ -85,6 +85,7 @@ class Problem(models.Model):
 
 	template = models.TextField(default='')
 	author = models.CharField(max_length=40,default='')
+	hidden = models.BooleanField(default='False')
 	
 	class Meta:
 		ordering = ["date", "name"]

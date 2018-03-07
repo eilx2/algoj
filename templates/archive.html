@@ -14,7 +14,7 @@
 		</thead>
 
 		{% for problem in problems %}
-			
+			{% if not problem.hidden %}
 			<tr>
 				<th scope="row">{{ forloop.counter0 }}</th>
 				<td>  <a href="{% url 'problem' problem.code %}">{{ problem.name }}</a> </td>
@@ -25,7 +25,7 @@
 					{% endfor %}
 				</td>
 			</tr>
-			
+			{% endif %}
 		{% endfor %}
 	</table>
 {% endblock %}
