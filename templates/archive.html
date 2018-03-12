@@ -20,9 +20,8 @@
 				<td>  <a href="{% url 'problem' problem.code %}">{{ problem.name }}</a> </td>
 				<td>  {{ scores|get_item:problem.code }}/{{ problem.tests.count }} </td>
 				<td> 
-					{% for tag in problem.tags.all %}
-						{{ tag.name }}
-					{% endfor %}
+					
+					{{ problem.tags.all|tags_to_comma_list }}
 				</td>
 			</tr>
 			{% endif %}
