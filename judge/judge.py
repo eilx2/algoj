@@ -84,7 +84,7 @@ def compare(comparator, input_data, judge_out, user_out):
               stdout=PIPE, stdin=PIPE, stderr=PIPE)
 
 	out, err = p.communicate(data.encode())
-
+       
 	print('Err:', err.decode())
 	if err.decode()!='':
 		raise RuntimeError()

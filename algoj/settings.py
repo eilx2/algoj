@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'g(sc*1vjt(0xlgqua9j2g#7i5$x#x%2b^b16-as_gf!tn5yyq*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG =True
+DEBUG =False
 
 ALLOWED_HOSTS = ['*']
 
@@ -154,3 +154,5 @@ TINYMCE_DEFAULT_CONFIG = {
     'width': '100%',
     'height': 300
 }
+
+MEDIA_ROOT='.'
