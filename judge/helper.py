@@ -3,6 +3,7 @@ from contextlib import contextmanager
 from subprocess import Popen, PIPE
 import uuid
 import traceback
+import shlex
 
 class TimeoutException(Exception): pass
 
@@ -36,6 +37,48 @@ def run(code, tl, input_data):
             p = Popen(['docker', 'run','-i', '-a', 'stdin', '-a', 'stdout', '-a', 'stderr',
                        '--name', ctr_name, '--rm',  'judge-docker',
                        'timeout', '-s', 'SIGKILL', str(tl), 'python3', '-c', code],
+                      stdout=PIPE, stdin=PIPE, stderr=PIPE)
+            
+            out, err = p.communicate(input=input_data.encode())
+            print('Return code:',p.returncode)
+
+            if p.returncode == 124:
+                kill_and_remove(ctr_name)
+                return ('Time limit exceeded!','tle')
+            
+            if p.returncode != 0:    
+                return (err.decode()+'\n'+'Return code from solution: '+str(p.returncode),'user_err')
+
+            return (out.decode(),'ok')
+
+    except TimeoutException:
+        print('Timeout occured, wtf..')
+        kill_and_remove(ctr_name)
+        return ('The judge took too long. Try submitting another time. Aborting operation...','judge_err')
+    except Exception as e:
+        return (traceback.format_exc(),'judge_err')
+
+
+
+def run_with_judge_code(judge_code, code, tl, input_data):
+    ctr_name = str(uuid.uuid4())
+   
+    try:
+        with time_limit(120):
+            input_cmd = "echo "+shlex.quote(input_data)+">> input.txt"
+            code_cmd = "echo "+shlex.quote(code)+">> sol.py"
+            judge_cmd="echo "+shlex.quote(judge_code)+">> judge.py"
+
+            run_cmd = "timeout -s SIGGKILL "+str(tl)+" python3 judge.py input.txt"
+
+
+            docker_cmd = 'docker run -i -a stdin -a stdout -a stderr --name' +ctr_name+' --rm judge-docker'
+
+            cmd = docker_cmod+" "+input_cmd+" && "+code_cmd+" && "+judge_cmd+" && "+run_cmd
+
+            
+
+            p = Popen(cmd,
                       stdout=PIPE, stdin=PIPE, stderr=PIPE)
             
             out, err = p.communicate(input=input_data.encode())

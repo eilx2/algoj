@@ -1,11 +1,15 @@
-def calc(a):
-	n=len(a)
-	res = 0
+a=[]
 
-	for i in range(n):
-		res+=i*a[i]-(n-i-i)*a[i]
+def visit(node):
+	if node==None:
+		return
 
-	return res
+	visit(node.left)
+	a.append(node.value)
+	visit(node.right)
 
-a = [int(x) for x in input().split()]
-print(calc(a))
+
+def linearize(node):
+	visit(node)
+
+	return a
