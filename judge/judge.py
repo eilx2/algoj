@@ -33,7 +33,10 @@ def evaluate_test(test_instance_id):
 
 		judge_sol = problem.solution.read().decode()
 		user_sol = submission.source
-		judge_code = problem.judge.read().decode()
+		judge_code = ""
+
+		if problem.no_io:
+			judge_code = problem.judge.read().decode()
 
 		
 		if not problem.no_io:
