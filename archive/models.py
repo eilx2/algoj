@@ -50,6 +50,9 @@ class Tag(models.Model):
 def grader_dir(self, filename):
 	return 'problems/'+self.code+'/grader/'+'grader.py'
 
+def judge_dir(self, filename):
+	return 'problems/'+self.code+'/judge/'+'judge.py'
+
 def tests_dir(self, filename):
 	return 'problems/'+self.problem.code+'/tests/'+str(filename)
 
@@ -62,7 +65,6 @@ class Comparator(models.Model):
 
 	def __str__(self):
 		return self.name
-
 
 class Problem(models.Model):
 	name = models.CharField(max_length=40, unique=True)
@@ -81,12 +83,16 @@ class Problem(models.Model):
 
 	comparator = models.ForeignKey(Comparator, on_delete=models.SET_NULL, default=None, null=True)
 
+	judge = models.FileField(upload_to=judge_dir, default=None, blank=True, null=True)
+
 	tags = models.ManyToManyField(Tag)
 
 	template = models.TextField(default='')
 	author = models.CharField(max_length=40,default='')
-	hidden = models.BooleanField(default='False')
-	
+	hidden = models.BooleanField(default=False)
+	no_io = models.BooleanField(default=False)
+
+
 	class Meta:
 		ordering = ["date", "name"]
 

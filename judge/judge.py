@@ -33,15 +33,23 @@ def evaluate_test(test_instance_id):
 
 		judge_sol = problem.solution.read().decode()
 		user_sol = submission.source
+		judge_code = problem.judge.read().decode()
 
 		
-		judge_out, j_code = helper.run(judge_sol,problem.time_limit,input_data)
+		if not problem.no_io:
+			judge_out, j_code = helper.run(judge_sol,problem.time_limit,input_data)
+		else:
+			judge_out, j_code = helper.run_with_judge(judge_code,judge_sol,problem.time_limit,input_data)
 
 		if j_code != 'ok':
 			make_verdict(test_inst,'EE',judge_out)
 			return
 
-		user_out, u_code = helper.run(user_sol, problem.time_limit, input_data)
+		if not problem.no_io:
+			user_out, u_code = helper.run(user_sol, problem.time_limit, input_data)
+		else:
+			user_out, u_code = helper.run_with_judge(judge_code,user_sol,problem.time_limit,input_data)
+			
 		if u_code != 'ok':
 			if u_code == 'tle':
 				make_verdict(test_inst,'TLE','Your solution has passed over the time limit.')

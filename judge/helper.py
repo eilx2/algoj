@@ -4,6 +4,7 @@ from subprocess import Popen, PIPE
 import uuid
 import traceback
 import shlex
+import base64
 
 class TimeoutException(Exception): pass
 
@@ -59,31 +60,43 @@ def run(code, tl, input_data):
         return (traceback.format_exc(),'judge_err')
 
 
+def quote(s):
+    ns=''
 
-def run_with_judge_code(judge_code, code, tl, input_data):
+    for i in range(len(s)):
+        if s[i]=='\'':
+            ns+='\\\''
+        elif s[i]=='\"':
+            ns+='\\"'
+        else:
+            ns+=s[i]
+
+    return "'"+ns+"'"
+
+def run_with_judge(judge_code, code, tl, input_data):
     ctr_name = str(uuid.uuid4())
    
     try:
         with time_limit(120):
-            input_cmd = "echo "+shlex.quote(input_data)+">> input.txt"
-            code_cmd = "echo "+shlex.quote(code)+">> sol.py"
-            judge_cmd="echo "+shlex.quote(judge_code)+">> judge.py"
 
-            run_cmd = "timeout -s SIGGKILL "+str(tl)+" python3 judge.py input.txt"
+            code_cmd = "echo "+shlex.quote(code)+" > sol.py"
+            judge_cmd="echo "+shlex.quote(judge_code)+" > judge.py"
+            run_cmd = "timeout -s SIGKILL "+str(tl)+" python3 judge.py"
 
+            cmd=code_cmd+" && "+judge_cmd+" && "+run_cmd
+            cmd = base64.b64encode(cmd.encode())
+            cmd = cmd.decode()
 
-            docker_cmd = 'docker run -i -a stdin -a stdout -a stderr --name' +ctr_name+' --rm judge-docker'
-
-            cmd = docker_cmod+" "+input_cmd+" && "+code_cmd+" && "+judge_cmd+" && "+run_cmd
-
+            print(cmd)
+            p = Popen(['docker', 'run','-i', '-a', 'stdin', '-a', 'stdout', '-a', 'stderr',
+                       '--name', ctr_name, '--rm',  'judge-docker',
+                       'bash','run.sh',cmd], 
+                       stdout=PIPE, stdin=PIPE, stderr=PIPE)
             
 
-            p = Popen(cmd,
-                      stdout=PIPE, stdin=PIPE, stderr=PIPE)
-            
             out, err = p.communicate(input=input_data.encode())
             print('Return code:',p.returncode)
-
+            print(out.decode())
             if p.returncode == 124:
                 kill_and_remove(ctr_name)
                 return ('Time limit exceeded!','tle')
