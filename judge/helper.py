@@ -1,6 +1,7 @@
 import signal
 from contextlib import contextmanager
 from subprocess import run,Popen, PIPE
+import subprocess
 import uuid
 import traceback
 import shlex
@@ -35,10 +36,9 @@ def run(code, tl, input_data):
    
     try:
         with time_limit(120):
-            p = run(['docker', 'run','-i', '-a', 'stdin', '-a', 'stdout', '-a', 'stderr',
+            p = subprocess.run(['docker', 'run','-i', '-a', 'stdin', '-a', 'stdout', '-a', 'stderr',
                        '--name', ctr_name, '--rm',  'judge-docker',
-                       'timeout', '-s', 'SIGKILL', str(tl), 'python3', '-c', code],
-                      stdout=PIPE, stderr=PIPE, input=input_data)
+                       'timeout', '-s', 'SIGKILL', str(tl), 'python3', '-c', code], stdout=PIPE, stderr=PIPE, input=input_data.encode())
             
             out = p.stdout
             err = p.stderr
