@@ -45,7 +45,7 @@ def evaluate_test(test_instance_id):
 			judge_out, j_code = helper.run_with_judge(judge_code,judge_sol,problem.time_limit,input_data)
 
 		if j_code != 'ok':
-			make_verdict(test_inst,'EE',judge_out)
+			make_verdict(test_inst,'EE',"The judge solution failed.\n"+judge_out)
 			return
 
 		if not problem.no_io:
