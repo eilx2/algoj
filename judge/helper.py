@@ -38,7 +38,7 @@ def run(code, tl, input_data):
         with time_limit(120):
             p = subprocess.run(['docker', 'run','-i', '-a', 'stdin', '-a', 'stdout', '-a', 'stderr',
                        '--name', ctr_name, '--rm',  'judge-docker',
-                       'timeout', '-s', 'SIGKILL', str(tl), 'python3', '-c', code], stdout=PIPE, stderr=PIPE, input=input_data.encode())
+                       'bash', 'run_sol.sh', code, str(tl)], stdout=PIPE, stderr=PIPE, input=input_data.encode())
             
             out = p.stdout
             err = p.stderr
