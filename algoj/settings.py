@@ -133,7 +133,7 @@ LOGIN_REDIRECT_URL = 'home'
 
 Q_CLUSTER = {
     'name': 'algoj',
-    'workers': 8,
+    'workers': 1,
     'recycle': 500,
     'timeout': 60,
     'compress': True,

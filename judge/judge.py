@@ -38,7 +38,7 @@ def evaluate_test(test_instance_id):
 		if problem.no_io:
 			judge_code = problem.judge.read().decode()
 
-		
+		print("time_limit: ",problem.time_limit)		
 		if not problem.no_io:
 			judge_out, j_code = helper.run(judge_sol,problem.time_limit,input_data)
 		else:
